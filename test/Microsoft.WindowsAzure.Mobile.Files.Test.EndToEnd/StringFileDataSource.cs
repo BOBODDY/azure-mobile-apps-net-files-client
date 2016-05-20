@@ -1,18 +1,15 @@
 ﻿using Microsoft.WindowsAzure.MobileServices.Files;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
 namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd
 {
-    class StreamDataSource : IMobileServiceFileDataSource
+    class StringFileDataSource : IMobileServiceFileDataSource
     {
         private readonly string Source;
 
-        public StreamDataSource(string source)
+        public StringFileDataSource(string source)
         {
             Source = source;
         }
