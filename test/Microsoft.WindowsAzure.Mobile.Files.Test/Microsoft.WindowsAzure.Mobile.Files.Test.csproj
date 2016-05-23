@@ -127,9 +127,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scenarios\EndToEnd\BasicScenario.cs" />
-    <Compile Include="Scenarios\EndToEnd\DataEntity.cs" />
-    <Compile Include="Scenarios\EndToEnd\FileSyncHandler.cs" />
     <Compile Include="Scenarios\MobileServiceFileSyncContext\DeleteFileScenario.cs" />
     <Compile Include="Scenarios\MobileServiceFileSyncContext\AddNewFileScenario.cs" />
     <Compile Include="Scenarios\MobileServiceFileSyncContext\MobileServiceFileSyncContextScenario.cs" />

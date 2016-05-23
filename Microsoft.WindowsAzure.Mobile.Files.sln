@@ -27,6 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.WindowsAzure.Mobi
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\Microsoft.WindowsAzure.Mobile.Files.Shared\Microsoft.WindowsAzure.Mobile.Files.Shared.projitems*{a8392497-fb01-4fc2-b8be-d9444ccd8f12}*SharedItemsImports = 4
 		src\Microsoft.WindowsAzure.Mobile.Files.Shared\Microsoft.WindowsAzure.Mobile.Files.Shared.projitems*{43d5f13a-0cf6-4417-a352-d23701aece79}*SharedItemsImports = 13
 		src\Microsoft.WindowsAzure.Mobile.Files.Shared\Microsoft.WindowsAzure.Mobile.Files.Shared.projitems*{d994fe0e-1e67-4d14-86e4-7ed5bc6129bc}*SharedItemsImports = 4
 		src\Microsoft.WindowsAzure.Mobile.Files.Shared\Microsoft.WindowsAzure.Mobile.Files.Shared.projitems*{40400e4b-22a1-4e17-9c93-4a01d687a7b6}*SharedItemsImports = 4
