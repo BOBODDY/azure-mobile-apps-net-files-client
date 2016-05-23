@@ -5,18 +5,18 @@ using System.IO;
 
 namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd
 {
-    class StringFileDataSource : IMobileServiceFileDataSource
+    public class StringFileDataSource : IMobileServiceFileDataSource
     {
-        private readonly string Source;
+        private readonly string source;
 
         public StringFileDataSource(string source)
         {
-            Source = source;
+            this.source = source;
         }
 
         public async Task<Stream> GetStream()
         {
-            return new MemoryStream(Source.Select(x => (byte)x).ToArray());
+            return new MemoryStream(this.source.Select(x => (byte)x).ToArray());
         }
     }
 }

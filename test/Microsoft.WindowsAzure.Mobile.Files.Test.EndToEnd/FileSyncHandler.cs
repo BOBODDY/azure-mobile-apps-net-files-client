@@ -6,18 +6,18 @@ using System.Collections.Generic;
 
 namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd
 {
-    class FileSyncHandler : IFileSyncHandler
+    public class FileSyncHandler : IFileSyncHandler
     {
-        private readonly Dictionary<string, string> Sources;
+        private readonly Dictionary<string, string> sources;
 
         public FileSyncHandler(Dictionary<string, string> sources)
         {
-            Sources = sources;
+            this.sources = sources;
         }
 
         public async Task<IMobileServiceFileDataSource> GetDataSource(MobileServiceFileMetadata metadata)
         {
-            return new StringFileDataSource(Sources[metadata.FileName]);
+            return new StringFileDataSource(this.sources[metadata.FileName]);
         }
 
         public async Task ProcessFileSynchronizationAction(MobileServiceFile file, FileSynchronizationAction action)
