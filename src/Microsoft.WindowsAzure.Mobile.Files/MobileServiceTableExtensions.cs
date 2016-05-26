@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
             new Dictionary<IMobileServiceClient, IMobileServiceFilesClient>();
         private readonly static object filesClientsSyncRoot = new object();
 
-        private static IMobileServiceFilesClient GetFilesClient(IMobileServiceClient client)
+        internal static IMobileServiceFilesClient GetFilesClient(IMobileServiceClient client)
         {
             lock (filesClientsSyncRoot)
             {
@@ -39,11 +39,9 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
 
         public async static Task<IEnumerable<MobileServiceFile>> GetFilesAsync<T>(this IMobileServiceTable<T> table, T dataItem)
         {
-            IFileSyncContext context = table.MobileServiceClient.GetFileSyncContext();
+            IMobileServiceFilesClient filesClient = GetFilesClient(table.MobileServiceClient);
 
-            var fileMetadata = await context.MetadataStore.GetMetadataAsync(table.TableName, GetDataItemId(dataItem));
-
-            return fileMetadata.Where(m => !m.PendingDeletion).Select(m => MobileServiceFile.FromMetadata(m));
+            return await filesClient.GetFilesAsync(table.TableName, GetDataItemId(dataItem));
         }
 
         public static MobileServiceFile CreateFile<T>(this IMobileServiceTable<T> table, T dataItem, string fileName)
@@ -85,6 +83,13 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
             await client.UploadFileAsync(MobileServiceFileMetadata.FromFile(file), dataSource);
         }
 
+        public async static Task DeleteFileAsync<T>(this IMobileServiceTable<T> table, T dataItem, string fileName)
+        {
+            MobileServiceFile file = CreateFile(table, dataItem, fileName);
+
+            await DeleteFileAsync(table, file);
+        }
+
         public async static Task DeleteFileAsync<T>(this IMobileServiceTable<T> table, MobileServiceFile file)
         {
             MobileServiceFileMetadata metadata = MobileServiceFileMetadata.FromFile(file);
@@ -103,6 +108,25 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
         {
             IMobileServiceFilesClient filesClient = GetFilesClient(table.MobileServiceClient);
             await filesClient.DownloadToStreamAsync(file, fileStream);
+        }
+
+        public async static Task<Stream> GetFileAsync<T>(this IMobileServiceTable<T> table, T dataItem, string fileName)
+        {
+            MobileServiceFile file = CreateFile(table, dataItem, fileName);
+
+            return await GetFileAsync(table, file);
+        }
+
+        public async static Task<Stream> GetFileAsync<T>(this IMobileServiceTable<T> table, MobileServiceFile file)
+        {
+            // this is very bad, but the Azure storage library expects a stream to WRITE to, 
+            // rather than a stream that you can then read from, like a normal library (see HttpResponse)
+            // I can't find a buffered or duplex stream that will all the stream to be read from as data arrives
+            // this will have do do for now
+            var stream = new MemoryStream();
+            await table.DownloadFileToStreamAsync(file, stream);
+            stream.Position = 0;
+            return stream;
         }
 
         public async static Task UploadFromStreamAsync<T>(this IMobileServiceTable<T> table, MobileServiceFile file, Stream fileStream)

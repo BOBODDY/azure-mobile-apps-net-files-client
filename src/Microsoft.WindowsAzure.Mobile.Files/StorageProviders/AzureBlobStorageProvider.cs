@@ -3,18 +3,11 @@
 // ----------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure.MobileServices.Files;
-using Microsoft.WindowsAzure.MobileServices.Files.Metadata;
-using Microsoft.WindowsAzure.MobileServices.Files.Sync;
-using Microsoft.WindowsAzure.MobileServices;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.MobileServices.Files.Identity;
+using Microsoft.WindowsAzure.MobileServices.Files.Metadata;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Microsoft.WindowsAzure.MobileServices.Files.StorageProviders
 {
@@ -29,18 +22,23 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.StorageProviders
 
         public async Task UploadFileAsync(MobileServiceFileMetadata metadata, IMobileServiceFileDataSource dataSource, StorageToken storageToken)
         {
-            CloudBlockBlob blob = GetBlobReference(storageToken, metadata.FileName);
-
             using (var stream = await dataSource.GetStream())
             {
-                await blob.UploadFromStreamAsync(stream);
-
-                metadata.LastModified = blob.Properties.LastModified;
-                metadata.FileStoreUri = blob.Uri.LocalPath;
-
-                stream.Position = 0;
-                metadata.ContentMD5 = GetMD5Hash(stream);
+                await UploadFileAsync(metadata, stream, storageToken);
             }
+        }
+
+        public async Task UploadFileAsync(MobileServiceFileMetadata metadata, Stream stream, StorageToken storageToken)
+        {
+            CloudBlockBlob blob = GetBlobReference(storageToken, metadata.FileName);
+
+            await blob.UploadFromStreamAsync(stream);
+
+            metadata.LastModified = blob.Properties.LastModified;
+            metadata.FileStoreUri = blob.Uri.LocalPath;
+
+            stream.Position = 0;
+            metadata.ContentMD5 = GetMD5Hash(stream);
         }
 
         public async Task DownloadFileToStreamAsync(MobileServiceFile file, Stream stream, StorageToken storageToken)

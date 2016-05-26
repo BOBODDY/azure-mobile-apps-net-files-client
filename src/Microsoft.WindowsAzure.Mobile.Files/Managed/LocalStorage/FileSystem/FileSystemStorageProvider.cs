@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microsoft.WindowsAzure.MobileServices.Files.LocalStorage
+namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileSystem
 {
     public class FileSystemStorageProvider : ILocalStorageProvider
     {

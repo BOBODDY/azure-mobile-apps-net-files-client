@@ -1,11 +1,11 @@
 ﻿using Microsoft.WindowsAzure.MobileServices.Files;
-using Microsoft.WindowsAzure.MobileServices.Files.LocalStorage;
+using Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileSystem;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.WindowsAzure.Mobile.Files.Test.Scenarios.LocalStorage
+namespace Microsoft.WindowsAzure.Mobile.Files.Test.Scenarios.Managed.LocalStorage
 {
     [Trait("FileSystemStorageProvider: Basic scenario", "")]
     public class FileSystemStorageProviderScenario
@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.Scenarios.LocalStorage
         {
             var provider = new FileSystemStorageProvider(new FileSystemAccess());
             await provider.AddAsync(file, GetStream("this is a test"));
+            Assert.True(File.Exists("table-1-test.txt"));
 
             using (var contentStream = await provider.GetAsync(file))
             {

@@ -1,12 +1,11 @@
-﻿using Microsoft.WindowsAzure.MobileServices.Files.LocalStorage;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
 #if WIN_APPS
 using Windows.Storage;
 #endif
 
-namespace Microsoft.WindowsAzure.MobileServices.Files.LocalStorage
+namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileSystem
 {
     public class FileSystemAccess : IFileSystemAccess
     {

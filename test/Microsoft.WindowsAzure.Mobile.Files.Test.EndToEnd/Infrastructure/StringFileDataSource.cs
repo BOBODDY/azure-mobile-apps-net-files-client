@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd
+namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Infrastructure
 {
     public class StringFileDataSource : IMobileServiceFileDataSource
     {

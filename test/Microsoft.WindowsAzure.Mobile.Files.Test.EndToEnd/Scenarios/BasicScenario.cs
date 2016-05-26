@@ -1,4 +1,5 @@
-﻿using Microsoft.WindowsAzure.MobileServices;
+﻿using Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Infrastructure;
+using Microsoft.WindowsAzure.MobileServices;
 using Microsoft.WindowsAzure.MobileServices.Files;
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd
+namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios
 {
     [Trait("End to end: Basic scenarios", "")]
     public class BasicScenario
@@ -80,7 +81,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd
         {
             store.DefineTable<DataEntity>();
             var client = new MobileServiceClient("http://localhost:3000/");
-            client.InitializeFileSyncContext(new FileSyncHandler(fileContent), store);
+            client.InitializeFileSyncContext(new StringFileSyncHandler(fileContent), store);
             await client.SyncContext.InitializeAsync(store);
             return client.GetSyncTable<DataEntity>();
         }

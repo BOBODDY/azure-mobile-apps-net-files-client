@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 
-namespace Microsoft.WindowsAzure.MobileServices.Files.LocalStorage
+namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage
 {
     public interface ILocalStorageProvider
     {

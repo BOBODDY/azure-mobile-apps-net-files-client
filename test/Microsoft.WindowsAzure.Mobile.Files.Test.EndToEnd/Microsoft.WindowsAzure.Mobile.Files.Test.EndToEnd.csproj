@@ -121,11 +121,13 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="BasicScenario.cs" />
-    <Compile Include="DataEntity.cs" />
-    <Compile Include="FileSyncHandler.cs" />
-    <Compile Include="StringFileDataSource.cs" />
+    <Compile Include="Scenarios\BasicScenario.cs" />
+    <Compile Include="Infrastructure\DataEntity.cs" />
+    <Compile Include="Infrastructure\StringFileSyncHandler.cs" />
+    <Compile Include="Infrastructure\StringFileDataSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scenarios\Managed\OfflineScenario.cs" />
+    <Compile Include="Scenarios\Managed\OnlineScenario.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -146,6 +148,7 @@
       <Name>Microsoft.WindowsAzure.Mobile.Files</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

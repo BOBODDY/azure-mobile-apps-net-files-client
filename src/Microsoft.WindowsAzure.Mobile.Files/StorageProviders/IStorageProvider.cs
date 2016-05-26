@@ -15,6 +15,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.StorageProviders
         Task DownloadFileToStreamAsync(MobileServiceFile file, Stream stream, StorageToken storageToken);
 
         Task UploadFileAsync(MobileServiceFileMetadata metadata, IMobileServiceFileDataSource dataSource, StorageToken storageToken);
+        Task UploadFileAsync(MobileServiceFileMetadata metadata, Stream stream, StorageToken storageToken);
 
         Task<Uri> GetFileUriAsync(StorageToken storageToken, string fileName);
     }
