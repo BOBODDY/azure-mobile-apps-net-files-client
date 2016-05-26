@@ -30,25 +30,6 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
             fileSyncHandler = handler;
         }
 
-        private static string GetDataItemId(object dataItem)
-        {
-            // TODO: This needs to use the same logic used by the client SDK
-            var objectType = dataItem.GetType().GetTypeInfo();
-            var idProperty = objectType.GetDeclaredProperty("Id");
-
-            if (idProperty != null && idProperty.CanRead)
-            {
-                return idProperty.GetValue(dataItem) as string;
-            }
-
-            return null;
-        }
-
-        public static MobileServiceFile CreateFile<T>(this IMobileServiceSyncTable<T> table, T dataItem, string fileName)
-        {
-            return new MobileServiceFile(fileName, table.TableName, GetDataItemId(dataItem));
-        }
-
         public async static Task PurgeFilesAsync<T>(this IMobileServiceSyncTable<T> table)
         {
             IFileSyncContext context = table.MobileServiceClient.GetFileSyncContext();
@@ -93,7 +74,12 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
             await context.AddFileAsync(file);
         }
 
-     
+        public async static Task DeleteFileAsync<T>(this IMobileServiceSyncTable<T> table, T dataItem, string fileName)
+        {
+            MobileServiceFile file = CreateFile(table, dataItem, fileName);
+
+            await DeleteFileAsync(table, file);
+        }
 
         public async static Task DeleteFileAsync<T>(this IMobileServiceSyncTable<T> table, MobileServiceFile file)
         {
@@ -106,5 +92,25 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
 
             await context.MetadataStore.CreateOrUpdateAsync(metadata);
         }
+
+        private static string GetDataItemId(object dataItem)
+        {
+            // TODO: This needs to use the same logic used by the client SDK
+            var objectType = dataItem.GetType().GetTypeInfo();
+            var idProperty = objectType.GetDeclaredProperty("Id");
+
+            if (idProperty != null && idProperty.CanRead)
+            {
+                return idProperty.GetValue(dataItem) as string;
+            }
+
+            return null;
+        }
+
+        public static MobileServiceFile CreateFile<T>(this IMobileServiceSyncTable<T> table, T dataItem, string fileName)
+        {
+            return new MobileServiceFile(fileName, table.TableName, GetDataItemId(dataItem));
+        }
+
     }
 }

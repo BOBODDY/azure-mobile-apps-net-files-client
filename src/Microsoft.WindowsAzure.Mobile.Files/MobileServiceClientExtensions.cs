@@ -33,19 +33,21 @@ Please initialize offline sync by invoking InializeAsync on the sync context or 
             return InitializeFileSyncContext(client, syncHandler, store, new DefaultFileSyncTriggerFactory(client, true));
         }
 
-        public static IFileSyncContext InitializeFileSyncContext(this IMobileServiceClient client, IFileSyncHandler syncHandler, 
-            IMobileServiceLocalStore store, IFileSyncTriggerFactory fileSyncTriggerFactory)
+        public static IFileSyncContext InitializeFileSyncContext(this IMobileServiceClient client, IFileSyncHandler syncHandler, IMobileServiceLocalStore store, IFileSyncTriggerFactory fileSyncTriggerFactory)
+        {
+            return client.InitializeFileSyncContext(new MobileServiceFileSyncContext(client, new FileMetadataStore(store), new FileOperationQueue(store), fileSyncTriggerFactory, syncHandler));
+        }
+
+        public static IFileSyncContext InitializeFileSyncContext(this IMobileServiceClient client, IFileSyncContext context)
         {
             lock (contextsSyncRoot)
             {
-                IFileSyncContext context;
-
-                if (!contexts.TryGetValue(client, out context))
+                if (contexts.TryGetValue(client, out context))
                 {
-                    context = new MobileServiceFileSyncContext(client, new FileMetadataStore(store), new FileOperationQueue(store), fileSyncTriggerFactory, syncHandler);
-                    contexts.Add(client, context);
+                    throw new InvalidOperationException("The file sync context has already been initialized.");
                 }
 
+                contexts.Add(client, context);
                 return context;
             }
         }

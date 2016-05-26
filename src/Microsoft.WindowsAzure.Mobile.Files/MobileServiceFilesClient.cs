@@ -61,6 +61,18 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
             await this.storageProvider.DownloadFileToStreamAsync(file, stream, token);
         }
 
+        public async Task<Stream> GetFileAsync(MobileServiceFile file)
+        {
+            // this is very bad, but the Azure storage library expects a stream to WRITE to, 
+            // rather than a stream that you can then read from, like a normal library (see HttpResponse)
+            // I can't find a buffered or duplex stream that will all the stream to be read from as data arrives
+            // this will have do do for now
+            var stream = new MemoryStream();
+            await DownloadToStreamAsync(file, stream);
+            stream.Position = 0;
+            return stream;
+        }
+
         public async Task DeleteFileAsync(MobileServiceFileMetadata metadata)
         {
             string route = string.Format("/tables/{0}/{1}/MobileServiceFiles/{2}/", metadata.ParentDataItemType, metadata.ParentDataItemId, metadata.FileName);

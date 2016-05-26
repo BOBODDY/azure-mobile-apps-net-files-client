@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
             new Dictionary<IMobileServiceClient, IMobileServiceFilesClient>();
         private readonly static object filesClientsSyncRoot = new object();
 
-        internal static IMobileServiceFilesClient GetFilesClient(IMobileServiceClient client)
+        public static IMobileServiceFilesClient GetFilesClient(this IMobileServiceClient client)
         {
             lock (filesClientsSyncRoot)
             {

@@ -43,12 +43,9 @@
     <Compile Include="Managed\LocalStorage\FileSystem\FileSystemStorageProvider.cs" />
     <Compile Include="Managed\LocalStorage\FileSystem\IFileSystemAccess.cs" />
     <Compile Include="Managed\LocalStorage\ILocalStorageProvider.cs" />
-    <Compile Include="Managed\IMobileServiceFilesClient.cs" />
     <Compile Include="Managed\LocalStorageSyncHandler.cs" />
-    <Compile Include="Managed\MobileServiceClients.cs" />
-    <Compile Include="Managed\MobileServiceFilesClient.cs" />
+    <Compile Include="Managed\MobileServiceManagedFileSyncContext.cs" />
     <Compile Include="Managed\MobileServiceSyncTableExtensions.cs" />
-    <Compile Include="Managed\MobileServiceTableExtensions.cs" />
     <Compile Include="StorageProviders\AzureBlobStorageProvider.cs" />
     <Compile Include="Eventing\FileOperationCompletedEvent.cs" />
     <Compile Include="Eventing\FileOperationSource.cs" />

@@ -23,5 +23,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
         Task UploadFileAsync(MobileServiceFileMetadata metadata, IMobileServiceFileDataSource dataSource);
 
         Task DownloadToStreamAsync(MobileServiceFile file, Stream stream);
+
+        Task<Stream> GetFileAsync(MobileServiceFile file);
     }
 }

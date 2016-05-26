@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios
             { "test.txt", "This is a test" }
         };
 
-        [Fact]
+        [Fact(DisplayName = "Files can be added, retrieved and deleted")]
         public async Task BlobCanBeUploadedListedRetrievedDeleted()
         {
             await ExecuteAndClearStore(async table =>
