@@ -1,7 +1,10 @@
-﻿using Microsoft.WindowsAzure.Mobile.Files.Managed;
+﻿// ---------------------------------------------------------------------------- 
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// ----------------------------------------------------------------------------
+
+using Microsoft.WindowsAzure.Mobile.Files.Managed;
 using Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Infrastructure;
 using Microsoft.WindowsAzure.MobileServices;
-using Microsoft.WindowsAzure.MobileServices.Files;
 using Microsoft.WindowsAzure.MobileServices.Files.Managed;
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
@@ -13,11 +16,11 @@ using Xunit;
 
 namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios.Managed
 {
-    [Trait("End to end: Managed online", "")]
+    [Trait("End to end: Managed offline", "")]
     public class OfflineScenario
     {
         private readonly DataEntity item = new DataEntity { Id = "1" };
-        private readonly Stream file = new MemoryStream("this is a test".Select(x => (byte)x).ToArray());
+        private readonly Stream fileStream = new MemoryStream("Managed offline scenario".Select(x => (byte)x).ToArray());
 
         [Fact(DisplayName = "Files can be added, retrieved and deleted")]
         public async Task BasicScenario()
@@ -25,33 +28,26 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios.Managed
             await ExecuteAndClearStore(async table =>
             {
                 // add the file
-                await table.AddFileAsync(item, "test.txt", file);
+                await table.AddFileAsync(item, "test.txt", fileStream);
 
                 // test our local store before syncing
-                var files = await table.GetFilesAsync(item);
-                Assert.Equal(1, files.Count());
-                Assert.Equal("test.txt", files.ElementAt(0).Name);
+                await TestFiles(table, "test.txt", "Managed offline scenario");
 
-                // sync
+                // push our changes to the server
                 await table.PushFileChangesAsync();
             });
 
             await ExecuteAndClearStore(async table =>
             {
-                // test our local store after syncing
+                // populate our fresh store by pulling from the server
                 await table.PullFilesAsync(item);
-                var files = await table.GetFilesAsync(item);
-                Assert.Equal(1, files.Count());
-                Assert.Equal("test.txt", files.ElementAt(0).Name);
 
-                // download the file and test content
-                await table.GetFileAsync(item, "test.txt");
-                var content = File.ReadAllText("test.txt");
-                Assert.Equal("this is a test", content);
-                File.Delete("test.txt");
+                // test that the file we added before has been synced
+                await TestFiles(table, "test.txt", "Managed offline scenario");
 
-                // delete the file
+                // delete the file and push
                 await table.DeleteFileAsync(item, "test.txt");
+                Assert.False(File.Exists("DataEntity-1-test.txt"));
                 await table.PushFileChangesAsync();
             });
 
@@ -62,6 +58,18 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios.Managed
                 var files = await table.GetFilesAsync(item);
                 Assert.Equal(0, files.Count());
             });
+        }
+
+        // currently only tests that a single file has been added
+        private async Task TestFiles(IMobileServiceSyncTable<DataEntity> table, string name, string content)
+        {
+            var files = await table.GetFilesAsync(item);
+            Assert.Equal(1, files.Count());
+            Assert.Equal(name, files.ElementAt(0).Name);
+            using (var stream = await table.GetFileAsync(item, name))
+            {
+                Assert.Equal(content, new StreamReader(stream).ReadToEnd());
+            }
         }
 
         private async Task ExecuteAndClearStore(Func<IMobileServiceSyncTable<DataEntity>, Task> test)

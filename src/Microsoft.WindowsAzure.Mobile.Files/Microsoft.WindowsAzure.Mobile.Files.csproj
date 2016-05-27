@@ -44,6 +44,7 @@
     <Compile Include="Managed\LocalStorage\FileSystem\IFileSystemAccess.cs" />
     <Compile Include="Managed\LocalStorage\ILocalStorageProvider.cs" />
     <Compile Include="Managed\LocalStorageSyncHandler.cs" />
+    <Compile Include="Managed\MobileServiceManagedFile.cs" />
     <Compile Include="Managed\MobileServiceManagedFileSyncContext.cs" />
     <Compile Include="Managed\MobileServiceSyncTableExtensions.cs" />
     <Compile Include="StorageProviders\AzureBlobStorageProvider.cs" />

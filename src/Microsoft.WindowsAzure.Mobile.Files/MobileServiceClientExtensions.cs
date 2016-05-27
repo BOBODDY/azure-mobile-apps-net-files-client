@@ -42,7 +42,7 @@ Please initialize offline sync by invoking InializeAsync on the sync context or 
         {
             lock (contextsSyncRoot)
             {
-                if (contexts.TryGetValue(client, out context))
+                if (contexts.ContainsKey(client))
                 {
                     throw new InvalidOperationException("The file sync context has already been initialized.");
                 }

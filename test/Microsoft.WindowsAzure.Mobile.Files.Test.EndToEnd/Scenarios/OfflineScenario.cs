@@ -12,14 +12,14 @@ using Xunit;
 
 namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios
 {
-    [Trait("End to end: Basic scenarios", "")]
-    public class BasicScenario
+    [Trait("End to end: Basic offline scenarios", "")]
+    public class OfflineScenario
     {
         private readonly DataEntity item = new DataEntity { Id = "1" };
         private readonly MobileServiceFile file = new MobileServiceFile("test.txt", "DataEntity", "1");
         private readonly Dictionary<string, string> fileContent = new Dictionary<string, string>
         {
-            { "test.txt", "This is a test" }
+            { "test.txt", "Basic scenario" }
         };
 
         [Fact(DisplayName = "Files can be added, retrieved and deleted")]

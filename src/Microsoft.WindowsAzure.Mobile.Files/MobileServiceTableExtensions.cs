@@ -120,7 +120,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
         public async static Task<Stream> GetFileAsync<T>(this IMobileServiceTable<T> table, MobileServiceFile file)
         {
             // this is very bad, but the Azure storage library expects a stream to WRITE to, 
-            // rather than a stream that you can then read from, like a normal library (see HttpResponse)
+            // rather than returning a stream that you can then read from, like a normal library (see HttpResponse)
             // I can't find a buffered or duplex stream that will all the stream to be read from as data arrives
             // this will have do do for now
             var stream = new MemoryStream();

@@ -1,4 +1,8 @@
-﻿using Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage;
+﻿// ---------------------------------------------------------------------------- 
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// ----------------------------------------------------------------------------
+
+using Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage;
 using Microsoft.WindowsAzure.MobileServices.Files.Metadata;
 using Microsoft.WindowsAzure.MobileServices.Files.Sync;
 using System.Threading.Tasks;

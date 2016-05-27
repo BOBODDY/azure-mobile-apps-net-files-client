@@ -2,30 +2,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.MobileServices;
-using Microsoft.WindowsAzure.MobileServices.Sync;
-using Microsoft.WindowsAzure.Storage.Blob;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices.Files.Metadata;
 
 namespace Microsoft.WindowsAzure.MobileServices.Files
 {
-    public sealed class MobileServiceFile
+    public class MobileServiceFile
     {
-        private string id;
-        private string name;
-        private string parentId;
-        private string tableName;
-        private IDictionary<string, string> metadata;
-
         internal MobileServiceFile() { }
 
         public MobileServiceFile(string name, string tableName, string parentId)
@@ -33,35 +17,19 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
 
         public MobileServiceFile(string id, string name, string tableName, string parentId)
         {
-            this.id = id;
-            this.name = name;
-            this.tableName = tableName;
-            this.parentId = parentId;
+            this.Id = id;
+            this.Name = name;
+            this.TableName = tableName;
+            this.ParentId = parentId;
         }
 
-        public string Id
-        {
-            get { return this.id; }
-            set { this.id = value; }
-        }
+        public string Id { get; set; }
 
-        public string Name
-        {
-            get { return this.name; }
-            set { this.name = value; }
-        }
+        public string Name { get; set; }
 
-        public string TableName
-        {
-            get { return this.tableName; }
-            set { this.tableName = value; }
-        }
+        public string TableName { get; set; }
 
-        public string ParentId
-        {
-            get { return parentId; }
-            set { parentId = value; }
-        }
+        public string ParentId { get; set; }
 
         public long Length { get; set; }
 
@@ -71,11 +39,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
 
         public string StoreUri { get; set; }
 
-        public IDictionary<string, string> Metadata
-        {
-            get { return this.metadata; }
-            set { this.metadata = value; }
-        }
+        public IDictionary<string, string> Metadata { get; set; }
 
         internal static MobileServiceFile FromMetadata(MobileServiceFileMetadata metadata)
         {
