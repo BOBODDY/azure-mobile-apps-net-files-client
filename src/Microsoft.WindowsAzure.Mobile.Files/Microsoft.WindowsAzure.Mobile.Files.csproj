@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Managed\LocalStorage\FileSystem\FileSystemStorageProvider.cs" />
     <Compile Include="Managed\LocalStorage\FileSystem\IFileSystemAccess.cs" />
+    <Compile Include="Managed\LocalStorage\FileSystem\MobileServiceFileSystemFile.cs" />
     <Compile Include="Managed\LocalStorage\ILocalStorageProvider.cs" />
     <Compile Include="Managed\LocalStorageSyncHandler.cs" />
     <Compile Include="Managed\MobileServiceManagedFile.cs" />
