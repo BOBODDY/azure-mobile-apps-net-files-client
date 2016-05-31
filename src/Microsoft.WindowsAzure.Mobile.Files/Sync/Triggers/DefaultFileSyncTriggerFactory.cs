@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.WindowsAzure.MobileServices.Files.Sync.Triggers
 {
-    public sealed class DefaultFileSyncTriggerFactory : IFileSyncTriggerFactory
+    internal sealed class DefaultFileSyncTriggerFactory : IFileSyncTriggerFactory
     {
         private readonly bool autoUpdateRecords;
         private readonly IMobileServiceClient mobileServiceClient;

@@ -13,7 +13,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.WindowsAzure.MobileServices.Files.Operations
 {
-    public sealed class FileOperationQueue : IFileOperationQueue
+    internal sealed class FileOperationQueue : IFileOperationQueue
     {
         public const string FileOperationTableName = "__fileoperationsmetadata";
         private const string CountPropertyName = "count";
