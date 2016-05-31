@@ -48,6 +48,12 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.StorageProviders
             await blob.DownloadToStreamAsync(stream);
         }
 
+        public async Task<Stream> GetFileAsync(MobileServiceFile file, StorageToken token)
+        {
+            CloudBlockBlob blob = GetBlobReference(token, file.Name);
+            return await blob.OpenReadAsync();
+        }
+
         public Task<Uri> GetFileUriAsync(StorageToken storageToken, string fileName)
         {
             CloudBlockBlob blob = GetBlobReference(storageToken, fileName);
