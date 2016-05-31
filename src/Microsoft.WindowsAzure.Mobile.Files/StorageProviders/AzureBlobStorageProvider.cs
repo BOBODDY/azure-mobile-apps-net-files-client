@@ -24,21 +24,15 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.StorageProviders
         {
             using (var stream = await dataSource.GetStream())
             {
-                await UploadFileAsync(metadata, stream, storageToken);
+                CloudBlockBlob blob = GetBlobReference(storageToken, metadata.FileName);
+                await blob.UploadFromStreamAsync(stream);
+
+                metadata.LastModified = blob.Properties.LastModified;
+                metadata.FileStoreUri = blob.Uri.LocalPath;
+
+                stream.Position = 0;
+                metadata.ContentMD5 = GetMD5Hash(stream);
             }
-        }
-
-        public async Task UploadFileAsync(MobileServiceFileMetadata metadata, Stream stream, StorageToken storageToken)
-        {
-            CloudBlockBlob blob = GetBlobReference(storageToken, metadata.FileName);
-
-            await blob.UploadFromStreamAsync(stream);
-
-            metadata.LastModified = blob.Properties.LastModified;
-            metadata.FileStoreUri = blob.Uri.LocalPath;
-
-            stream.Position = 0;
-            metadata.ContentMD5 = GetMD5Hash(stream);
         }
 
         public async Task DownloadFileToStreamAsync(MobileServiceFile file, Stream stream, StorageToken storageToken)
