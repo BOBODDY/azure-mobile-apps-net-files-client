@@ -31,7 +31,6 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.StorageProviders
                 metadata.FileStoreUri = blob.Uri.LocalPath;
 
                 stream.Position = 0;
-                metadata.ContentMD5 = GetMD5Hash(stream);
             }
         }
 
@@ -45,6 +44,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.StorageProviders
         public async Task<Stream> GetFileAsync(MobileServiceFile file, StorageToken token)
         {
             CloudBlockBlob blob = GetBlobReference(token, file.Name);
+
             return await blob.OpenReadAsync();
         }
 
@@ -71,17 +71,6 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.StorageProviders
             }
 
             return blob;
-        }
-
-        private string GetMD5Hash(Stream stream)
-        {
-            //using (MD5 md5 = MD5.Create())
-            //{
-            //    byte[] hash = md5.ComputeHash(stream);
-            //    return Convert.ToBase64String(hash);
-            //}
-
-            return string.Empty;
         }
     }
 }
