@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.IO
         {
             StorageFile file = await StorageFile.GetFileFromPathAsync(targetPath);
 
-            return await file.OpenStreamForWriteAsync();
+            return await file.OpenStreamForReadAsync();
         }
 #endif
     }

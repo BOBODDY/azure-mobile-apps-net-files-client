@@ -37,6 +37,5 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileS
         public string GetFullFilePath(string targetPath) {
             return Path.Combine(Environment.CurrentDirectory, targetPath);
         }
-    }
 #endif
 }
