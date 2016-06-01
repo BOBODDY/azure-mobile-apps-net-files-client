@@ -12,7 +12,6 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage
         Task AddAsync(MobileServiceFile file, Stream source);
         Task<Stream> GetAsync(MobileServiceFile file);
         Task DeleteAsync(MobileServiceFile file);
-
-        
+        MobileServiceFile AttachMetadata(MobileServiceFile file);
     }
 }

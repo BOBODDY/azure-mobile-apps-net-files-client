@@ -1,9 +1,19 @@
 ﻿namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileSystem
 {
-    public class MobileServiceFileSystemFile : MobileServiceManagedFile
+    public class MobileServiceFileSystemFile : MobileServiceFile
     {
-        public MobileServiceFileSystemFile(string physicalPath)
+        public MobileServiceFileSystemFile(MobileServiceFile file, string physicalPath)
         {
+            ContentMD5 = file.ContentMD5;
+            Id = file.Id;
+            LastModified = file.LastModified;
+            Length = file.Length;
+            Metadata = file.Metadata;
+            Name = file.Name;
+            ParentId = file.ParentId;
+            StoreUri = file.StoreUri;
+            TableName = file.TableName;
+            
             PhysicalPath = physicalPath;
         }
 

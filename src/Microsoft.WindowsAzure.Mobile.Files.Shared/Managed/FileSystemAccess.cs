@@ -2,6 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
 
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -28,9 +29,13 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileS
 
         public Task EnsureFolderExistsAsync(string targetPath) 
         {
-            if(!Directory.Exists(targetPath))
+            if(!string.IsNullOrEmpty(targetPath) && !Directory.Exists(targetPath))
                 Directory.CreateDirectory(targetPath);
             return Task.FromResult(true);
+        }
+
+        public string GetFullFilePath(string targetPath) {
+            return Path.Combine(Environment.CurrentDirectory, targetPath);
         }
     }
 #endif

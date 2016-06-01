@@ -34,10 +34,10 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed
             await context.DeleteFileAsync(file);
         }
 
-        // return the derived class to avoid needing to import the Files namespace and introducing collisions
-        public async static Task<IEnumerable<MobileServiceManagedFile>> GetFilesAsync<T>(this IMobileServiceSyncTable<T> table, T dataItem)
+        public async static Task<IEnumerable<MobileServiceFile>> GetFilesAsync<T>(this IMobileServiceSyncTable<T> table, T dataItem)
         {
-            return (await Files.MobileServiceSyncTableExtensions.GetFilesAsync(table, dataItem)).Select(MobileServiceManagedFile.FromMobileServiceFile);
+            var localStorage = GetManagedSyncContext(table).LocalStorage;
+            return (await Files.MobileServiceSyncTableExtensions.GetFilesAsync(table, dataItem)).Select(localStorage.AttachMetadata);
         }
 
         // make push and pull available on this namespace, just delegate to the existing methods

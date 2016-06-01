@@ -34,5 +34,10 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileS
             // this just ensures the folder exists for now, doesn't create
             await StorageFolder.GetFolderFromPathAsync(targetPath);
         }
+
+        public string GetFullFilePath(string targetPath)
+        {
+            return targetPath;
+        }
     }
 }

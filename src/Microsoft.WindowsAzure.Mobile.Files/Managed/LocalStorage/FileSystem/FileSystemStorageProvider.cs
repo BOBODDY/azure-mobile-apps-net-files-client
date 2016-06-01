@@ -37,9 +37,14 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileS
             return await this.fileSystem.OpenReadAsync(GetFilePath(file));
         }
 
+        public MobileServiceFile AttachMetadata(MobileServiceFile file)
+        {
+            return new MobileServiceFileSystemFile(file, GetFilePath(file));
+        }
+
         private string GetFilePath(MobileServiceFile file)
         {
-            return Path.Combine(this.basePath, string.Format("{0}-{1}-{2}", file.TableName, file.ParentId, file.Name));
+            return fileSystem.GetFullFilePath(Path.Combine(this.basePath, string.Format("{0}-{1}-{2}", file.TableName, file.ParentId, file.Name)));
         }
     }
 }

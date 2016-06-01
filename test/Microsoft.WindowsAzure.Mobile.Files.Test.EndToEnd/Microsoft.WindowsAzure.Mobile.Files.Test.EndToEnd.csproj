@@ -121,6 +121,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Scenarios\Managed\MetadataScenario.cs" />
     <Compile Include="Scenarios\OfflineScenario.cs" />
     <Compile Include="Infrastructure\DataEntity.cs" />
     <Compile Include="Infrastructure\StringFileSyncHandler.cs" />
