@@ -10,26 +10,26 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileS
 #if !WIN_APPS
     public class FileSystemAccess : IFileSystemAccess
     {
-        private readonly string basePath;
-
-        public FileSystemAccess(string basePath = "")
-        {
-            this.basePath = basePath;
-        }
-
         public Task<Stream> CreateAsync(string targetPath)
         {
-            return Task.FromResult<Stream>(File.Create(Path.Combine(basePath, targetPath)));
+            return Task.FromResult<Stream>(File.Create(targetPath));
         }
 
         public Task<Stream> OpenReadAsync(string targetPath)
         {
-            return Task.FromResult<Stream>(File.OpenRead(Path.Combine(basePath, targetPath)));
+            return Task.FromResult<Stream>(File.OpenRead(targetPath));
         }
 
         public Task DeleteAsync(string targetPath)
         {
-            File.Delete(Path.Combine(basePath, targetPath));
+            File.Delete(targetPath);
+            return Task.FromResult(true);
+        }
+
+        public Task EnsureFolderExistsAsync(string targetPath) 
+        {
+            if(!Directory.Exists(targetPath))
+                Directory.CreateDirectory(targetPath);
             return Task.FromResult(true);
         }
     }

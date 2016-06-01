@@ -1,5 +1,6 @@
 ﻿using Microsoft.WindowsAzure.MobileServices.Files;
 using Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileSystem;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,6 +32,23 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.Scenarios.Managed.LocalStorag
 
             await provider.DeleteAsync(file);
             Assert.False(File.Exists("table-1-test.txt"));
+        }
+
+        [Fact(DisplayName = "Target folder is created")]
+        public async Task TargetFolderIsCreated()
+        {
+            var provider = new FileSystemStorageProvider(new FileSystemAccess(), "files");
+            Assert.True(Directory.Exists("files"));
+            Directory.Delete("files");
+        }
+
+        [Fact(DisplayName = "Target folder can be an absolute path")]
+        public async Task AbsoluteTargetFolderIsCreated()
+        {
+            var path = Path.Combine(Environment.CurrentDirectory, "files");
+            var provider = new FileSystemStorageProvider(new FileSystemAccess(), path);
+            Assert.True(Directory.Exists(path));
+            Directory.Delete(path);
         }
 
         private Stream GetStream(string source)

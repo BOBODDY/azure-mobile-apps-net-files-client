@@ -12,5 +12,6 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileS
         Task<Stream> CreateAsync(string targetPath);
         Task<Stream> OpenReadAsync(string targetPath);
         Task DeleteAsync(string targetPath);
+        Task EnsureFolderExistsAsync(string targetPath);
     }
 }

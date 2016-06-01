@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Managed
         {
             if (!string.IsNullOrEmpty(basePath))
                 basePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, basePath);
-            return client.InitializeManagedFileSyncContext(store, new WinAppsFileSystemAccess(basePath));
+            return client.InitializeManagedFileSyncContext(store, new FileSystemStorageProvider(new WinAppsFileSystemAccess(), basePath));
         }
     }
 }

@@ -28,14 +28,9 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Managed
             //   relative path - relative to application data folder
             if (!string.IsNullOrEmpty(basePath))
                 basePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), basePath);
-            return client.InitializeManagedFileSyncContext(store, new FileSystemAccess(basePath));
+            return client.InitializeManagedFileSyncContext(store, new FileSystemStorageProvider(new FileSystemAccess(), basePath));
         }
 #endif
-
-        public static IFileSyncContext InitializeManagedFileSyncContext(this IMobileServiceClient client, IMobileServiceLocalStore store, IFileSystemAccess fileSystem)
-        {
-            return InitializeManagedFileSyncContext(client, store, new FileSystemStorageProvider(fileSystem));
-        }
 
         public static IFileSyncContext InitializeManagedFileSyncContext(this IMobileServiceClient client, IMobileServiceLocalStore store, ILocalStorageProvider localStorage)
         {
