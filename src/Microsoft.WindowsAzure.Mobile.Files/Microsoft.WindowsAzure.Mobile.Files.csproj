@@ -52,7 +52,6 @@
     <Compile Include="Eventing\FileOperationSource.cs" />
     <Compile Include="IMobileServiceFilesClient.cs" />
     <Compile Include="StorageProviders\IStorageProvider.cs" />
-    <Compile Include="MD5.cs" />
     <Compile Include="FileLocation.cs" />
     <Compile Include="Sync\IFileSyncContext.cs" />
     <Compile Include="Metadata\FileMetadataStore.cs" />
