@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileS
             return await this.fileSystem.OpenReadAsync(GetFilePath(file));
         }
 
-        public MobileServiceFile AttachMetadata(MobileServiceFile file)
+        public MobileServiceManagedFile AttachMetadata(MobileServiceFile file)
         {
             return new MobileServiceFileSystemFile(file, GetFilePath(file));
         }

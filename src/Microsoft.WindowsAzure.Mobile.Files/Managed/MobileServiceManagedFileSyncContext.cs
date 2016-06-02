@@ -28,10 +28,11 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed
             return await LocalStorage.GetAsync(file);
         }
 
-        public async Task AddFileAsync(MobileServiceFile file, Stream stream)
+        public async Task<MobileServiceManagedFile> AddFileAsync(MobileServiceFile file, Stream stream)
         {
             await base.AddFileAsync(file);
             await LocalStorage.AddAsync(file, stream);
+            return LocalStorage.AttachMetadata(file);
         }
 
         public new async Task DeleteFileAsync(MobileServiceFile file)
