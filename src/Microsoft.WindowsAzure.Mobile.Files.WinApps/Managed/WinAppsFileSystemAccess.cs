@@ -11,32 +11,39 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileS
 {
     public class WinAppsFileSystemAccess : IFileSystemAccess
     {
+        private readonly StorageFolder folder;
+
+        public WinAppsFileSystemAccess(StorageFolder folder)
+        {
+            this.folder = folder;
+        }
+
         public async Task<Stream> CreateAsync(string targetPath)
         {
-            StorageFile file = await StorageFile.GetFileFromPathAsync(targetPath);
+            var file = await folder.CreateFileAsync(targetPath);
             return await file.OpenStreamForWriteAsync();
         }
 
         public async Task<Stream> OpenReadAsync(string targetPath)
         {
-            StorageFile file = await StorageFile.GetFileFromPathAsync(targetPath);
-            return await file.OpenStreamForReadAsync();
+            return await folder.OpenStreamForReadAsync(targetPath);
         }
 
         public async Task DeleteAsync(string targetPath)
         {
-            StorageFile file = await StorageFile.GetFileFromPathAsync(targetPath);
+            var file = await folder.GetFileAsync(targetPath);
             await file.DeleteAsync();
         }
 
         public async Task EnsureFolderExistsAsync(string targetPath)
         {
-            // this just ensures the folder exists for now, doesn't create
-            await StorageFolder.GetFolderFromPathAsync(targetPath);
+            // the folder we were passed the constructor must already exist
         }
 
         public string GetFullFilePath(string targetPath)
         {
+            // this is not entirely correct. the only way to correctly retrieve the
+            // full path is to make this method async and call folder.GetFileAsync
             return targetPath;
         }
     }

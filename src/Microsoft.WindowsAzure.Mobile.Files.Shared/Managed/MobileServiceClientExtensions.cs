@@ -22,12 +22,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Managed
 #if !WIN_APPS
         public static IFileSyncContext InitializeManagedFileSyncContext(this IMobileServiceClient client, IMobileServiceLocalStore store, string basePath = "")
         {
-            // this supports the following values for basePath
-            //   empty - current working directory
-            //   absolute path - value provided
-            //   relative path - relative to application data folder
-            if (!string.IsNullOrEmpty(basePath))
-                basePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), basePath);
+            basePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), basePath);
             return client.InitializeManagedFileSyncContext(store, new FileSystemStorageProvider(new FileSystemAccess(), basePath));
         }
 #endif

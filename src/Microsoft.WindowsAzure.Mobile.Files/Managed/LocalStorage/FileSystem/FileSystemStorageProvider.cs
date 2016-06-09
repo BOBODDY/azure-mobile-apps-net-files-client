@@ -16,11 +16,11 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileS
         {
             this.fileSystem = fileSystem;
             this.basePath = basePath;
-            fileSystem.EnsureFolderExistsAsync(basePath);
         }
 
         public async Task AddAsync(MobileServiceFile file, Stream source)
         {
+            await fileSystem.EnsureFolderExistsAsync(basePath);
             using (var target = await this.fileSystem.CreateAsync(GetFilePath(file)))
             {
                 await source.CopyToAsync(target);
