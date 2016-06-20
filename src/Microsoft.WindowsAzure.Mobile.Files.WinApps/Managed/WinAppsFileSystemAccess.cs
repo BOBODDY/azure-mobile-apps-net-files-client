@@ -20,7 +20,9 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileS
 
         public async Task<Stream> CreateAsync(string targetPath)
         {
-            var file = await folder.CreateFileAsync(targetPath);
+            // ReplaceExisting is a partial work around for the fact that record create events are raised twice
+            // IO locks can still occur, we need a better solution for this
+            var file = await folder.CreateFileAsync(targetPath, CreationCollisionOption.ReplaceExisting);
             return await file.OpenStreamForWriteAsync();
         }
 
@@ -35,16 +37,15 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileS
             await file.DeleteAsync();
         }
 
-        public async Task EnsureFolderExistsAsync(string targetPath)
+        public Task EnsureFolderExistsAsync(string targetPath)
         {
             // the folder we were passed the constructor must already exist
+            return Task.FromResult(true);
         }
 
         public string GetFullFilePath(string targetPath)
         {
-            // this is not entirely correct. the only way to correctly retrieve the
-            // full path is to make this method async and call folder.GetFileAsync
-            return targetPath;
+            return Path.Combine(this.folder.Path, targetPath);
         }
     }
 }

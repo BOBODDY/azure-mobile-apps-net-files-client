@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Managed
         public static IFileSyncContext InitializeManagedFileSyncContext(this IMobileServiceClient client, IMobileServiceLocalStore store, string basePath = "")
         {
             basePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), basePath);
-            return client.InitializeManagedFileSyncContext(store, new FileSystemStorageProvider(new FileSystemAccess(), basePath));
+            return client.InitializeManagedFileSyncContext(store, new FileSystemStorageProvider(new FileSystemAccess(basePath)));
         }
 #endif
 

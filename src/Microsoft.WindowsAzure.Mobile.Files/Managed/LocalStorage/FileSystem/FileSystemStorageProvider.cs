@@ -10,17 +10,14 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileS
     public class FileSystemStorageProvider : ILocalStorageProvider
     {
         private readonly IFileSystemAccess fileSystem;
-        private readonly string basePath;
 
-        public FileSystemStorageProvider(IFileSystemAccess fileSystem, string basePath = "")
+        public FileSystemStorageProvider(IFileSystemAccess fileSystem)
         {
             this.fileSystem = fileSystem;
-            this.basePath = basePath;
         }
 
         public async Task AddAsync(MobileServiceFile file, Stream source)
         {
-            await fileSystem.EnsureFolderExistsAsync(basePath);
             using (var target = await this.fileSystem.CreateAsync(GetFilePath(file)))
             {
                 await source.CopyToAsync(target);
@@ -44,7 +41,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileS
 
         private string GetFilePath(MobileServiceFile file)
         {
-            return fileSystem.GetFullFilePath(Path.Combine(this.basePath, string.Format("{0}-{1}-{2}", file.TableName, file.ParentId, file.Name)));
+            return Path.Combine(string.Format("{0}-{1}-{2}", file.TableName, file.ParentId, file.Name));
         }
     }
 }

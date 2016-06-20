@@ -24,11 +24,13 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.StorageProviders
         {
             using (var stream = await dataSource.GetStream())
             {
-                CloudBlockBlob blob = GetBlobReference(storageToken, metadata.FileName);
+                CloudBlockBlob blob = await GetBlobReference(storageToken, metadata.FileName);
                 await blob.UploadFromStreamAsync(stream);
+                //await blob.FetchAttributesAsync();
 
                 metadata.LastModified = blob.Properties.LastModified;
                 metadata.FileStoreUri = blob.Uri.LocalPath;
+                
 
                 stream.Position = 0;
             }
@@ -36,26 +38,26 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.StorageProviders
 
         public async Task DownloadFileToStreamAsync(MobileServiceFile file, Stream stream, StorageToken storageToken)
         {
-            CloudBlockBlob blob = GetBlobReference(storageToken, file.Name);
+            CloudBlockBlob blob = await GetBlobReference(storageToken, file.Name);
 
             await blob.DownloadToStreamAsync(stream);
         }
 
         public async Task<Stream> GetFileAsync(MobileServiceFile file, StorageToken token)
         {
-            CloudBlockBlob blob = GetBlobReference(token, file.Name);
+            CloudBlockBlob blob = await GetBlobReference(token, file.Name);
 
             return await blob.OpenReadAsync();
         }
 
-        public Task<Uri> GetFileUriAsync(StorageToken storageToken, string fileName)
+        public async Task<Uri> GetFileUriAsync(StorageToken storageToken, string fileName)
         {
-            CloudBlockBlob blob = GetBlobReference(storageToken, fileName);
+            CloudBlockBlob blob = await GetBlobReference(storageToken, fileName);
 
-            return Task.FromResult(new Uri(blob.Uri, storageToken.RawToken));
+            return new Uri(blob.Uri, storageToken.RawToken);
         }
 
-        private CloudBlockBlob GetBlobReference(StorageToken token, string fileName)
+        private async Task<CloudBlockBlob> GetBlobReference(StorageToken token, string fileName)
         {
             CloudBlockBlob blob = null;
 
@@ -69,6 +71,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.StorageProviders
 
                 blob = container.GetBlockBlobReference(fileName);
             }
+
 
             return blob;
         }

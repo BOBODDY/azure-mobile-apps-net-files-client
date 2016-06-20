@@ -71,6 +71,8 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
             StorageToken token = await GetStorageToken(this.client, MobileServiceFile.FromMetadata(metadata), StoragePermissions.Write);
 
             await this.storageProvider.UploadFileAsync(metadata, dataSource, token);
+
+            var list = await GetFilesAsync(metadata.ParentDataItemType, metadata.ParentDataItemId);
         }
 
         /// <summary>
