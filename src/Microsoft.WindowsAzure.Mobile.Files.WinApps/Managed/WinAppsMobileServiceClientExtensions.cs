@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------------------
 
 using Microsoft.WindowsAzure.MobileServices;
-using Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileSystem;
+using Microsoft.WindowsAzure.MobileServices.Files.Express.LocalStorage.FileSystem;
 using Microsoft.WindowsAzure.MobileServices.Files.Sync;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 using System;

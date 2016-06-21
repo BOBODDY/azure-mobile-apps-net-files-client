@@ -5,7 +5,7 @@
 using Microsoft.WindowsAzure.Mobile.Files.Managed;
 using Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Infrastructure;
 using Microsoft.WindowsAzure.MobileServices;
-using Microsoft.WindowsAzure.MobileServices.Files.Managed;
+using Microsoft.WindowsAzure.MobileServices.Files.Express;
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 using System;

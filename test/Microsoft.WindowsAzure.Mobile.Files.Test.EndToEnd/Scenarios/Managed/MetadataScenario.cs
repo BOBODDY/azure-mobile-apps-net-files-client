@@ -5,8 +5,8 @@
 using Microsoft.WindowsAzure.Mobile.Files.Managed;
 using Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Infrastructure;
 using Microsoft.WindowsAzure.MobileServices;
-using Microsoft.WindowsAzure.MobileServices.Files.Managed;
-using Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileSystem;
+using Microsoft.WindowsAzure.MobileServices.Files.Express;
+using Microsoft.WindowsAzure.MobileServices.Files.Express.LocalStorage.FileSystem;
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 using System;
@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios.Managed
                 var files = await table.GetFilesAsync(item);
                 Assert.Equal(1, files.Count());
                 var file = (MobileServiceFileSystemFile) files.ElementAt(0);
-                Assert.Equal(Path.Combine(Environment.CurrentDirectory, "DataEntity-1-test.txt"), file.PhysicalPath);
+                Assert.Equal(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "DataEntity-1-test.txt"), file.PhysicalPath);
                 Assert.Equal("test.txt", file.Name);
 
                 // make sure PhysicalPath is correct!

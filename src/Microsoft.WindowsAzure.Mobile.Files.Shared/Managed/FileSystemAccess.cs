@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileSystem
+namespace Microsoft.WindowsAzure.MobileServices.Files.Express.LocalStorage.FileSystem
 {
 #if !WIN_APPS
     public class FileSystemAccess : IFileSystemAccess

@@ -7,7 +7,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileSystem
+namespace Microsoft.WindowsAzure.MobileServices.Files.Express.LocalStorage.FileSystem
 {
     public class WinAppsFileSystemAccess : IFileSystemAccess
     {

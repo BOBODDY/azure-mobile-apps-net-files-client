@@ -40,14 +40,14 @@
     <DefineConstants>TRACE;Sign</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Managed\LocalStorage\FileSystem\FileSystemStorageProvider.cs" />
-    <Compile Include="Managed\LocalStorage\FileSystem\IFileSystemAccess.cs" />
-    <Compile Include="Managed\LocalStorage\FileSystem\MobileServiceFileSystemFile.cs" />
-    <Compile Include="Managed\LocalStorage\ILocalStorageProvider.cs" />
-    <Compile Include="Managed\LocalStorageSyncHandler.cs" />
-    <Compile Include="Managed\MobileServiceManagedFile.cs" />
-    <Compile Include="Managed\MobileServiceManagedFileSyncContext.cs" />
-    <Compile Include="Managed\MobileServiceSyncTableExtensions.cs" />
+    <Compile Include="Express\LocalStorage\FileSystem\FileSystemStorageProvider.cs" />
+    <Compile Include="Express\LocalStorage\FileSystem\IFileSystemAccess.cs" />
+    <Compile Include="Express\LocalStorage\FileSystem\MobileServiceFileSystemFile.cs" />
+    <Compile Include="Express\LocalStorage\ILocalStorageProvider.cs" />
+    <Compile Include="Express\LocalStorageSyncHandler.cs" />
+    <Compile Include="Express\MobileServiceManagedFile.cs" />
+    <Compile Include="Express\MobileServiceManagedFileSyncContext.cs" />
+    <Compile Include="Express\MobileServiceSyncTableExtensions.cs" />
     <Compile Include="StorageProviders\AzureBlobStorageProvider.cs" />
     <Compile Include="Eventing\FileOperationCompletedEvent.cs" />
     <Compile Include="Eventing\FileOperationSource.cs" />
