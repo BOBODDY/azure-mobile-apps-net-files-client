@@ -27,15 +27,17 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileS
             return Task.FromResult(true);
         }
 
-        public Task EnsureFolderExistsAsync(string targetPath) 
+        public Task EnsureFolderExistsAsync(string targetPath)
         {
-            if(!string.IsNullOrEmpty(targetPath) && !Directory.Exists(targetPath))
+            if (!string.IsNullOrEmpty(targetPath) && !Directory.Exists(targetPath))
                 Directory.CreateDirectory(targetPath);
             return Task.FromResult(true);
         }
 
-        public string GetFullFilePath(string targetPath) {
+        public string GetFullFilePath(string targetPath)
+        {
             return Path.Combine(Environment.CurrentDirectory, targetPath);
         }
+    }
 #endif
 }
