@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios
 {
-    [Trait("End to end: Managed online", "")]
+    [Trait("End to end: Basic online", "")]
     public class OnlineScenario
     {
         private readonly DataEntity item = new DataEntity { Id = "1" };
@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios
             var table = GetTable();
 
             // add a file
-            await table.AddFileAsync(item, "test.txt", GetStream("Managed online scenario"));
+            await table.AddFileAsync(item, "test.txt", GetStream("Basic online scenario"));
 
             // make sure it appears in a list
             var files = await table.GetFilesAsync(item);
@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios
 
             // make sure the content can be retrieved
             var retrievedStream = await table.GetFileAsync(item, "test.txt");
-            Assert.Equal("Managed online scenario", new StreamReader(retrievedStream).ReadToEnd());
+            Assert.Equal("Basic online scenario", new StreamReader(retrievedStream).ReadToEnd());
 
             // delete and make sure it no longer appears in a list
             await table.DeleteFileAsync(item, "test.txt");

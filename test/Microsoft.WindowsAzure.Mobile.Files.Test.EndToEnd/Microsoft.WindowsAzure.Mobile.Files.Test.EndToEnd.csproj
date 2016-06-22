@@ -121,13 +121,13 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Scenarios\Managed\MetadataScenario.cs" />
+    <Compile Include="Scenarios\Express\MetadataScenario.cs" />
     <Compile Include="Scenarios\OfflineScenario.cs" />
     <Compile Include="Infrastructure\DataEntity.cs" />
     <Compile Include="Infrastructure\StringFileSyncHandler.cs" />
     <Compile Include="Infrastructure\StringFileDataSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scenarios\Managed\OfflineScenario.cs" />
+    <Compile Include="Scenarios\Express\OfflineScenario.cs" />
     <Compile Include="Scenarios\OnlineScenario.cs" />
   </ItemGroup>
   <ItemGroup>
