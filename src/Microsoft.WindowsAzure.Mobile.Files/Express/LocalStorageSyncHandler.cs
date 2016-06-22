@@ -2,12 +2,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage;
+using Microsoft.WindowsAzure.MobileServices.Files.Express.LocalStorage;
 using Microsoft.WindowsAzure.MobileServices.Files.Metadata;
 using Microsoft.WindowsAzure.MobileServices.Files.Sync;
 using System.Threading.Tasks;
 
-namespace Microsoft.WindowsAzure.MobileServices.Files.Managed
+namespace Microsoft.WindowsAzure.MobileServices.Files.Express
 {
     public class LocalStorageSyncHandler : IFileSyncHandler
     {

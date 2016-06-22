@@ -1,6 +1,6 @@
-﻿namespace Microsoft.WindowsAzure.MobileServices.Files.Managed.LocalStorage.FileSystem
+﻿namespace Microsoft.WindowsAzure.MobileServices.Files.Express.LocalStorage.FileSystem
 {
-    public class MobileServiceFileSystemFile : MobileServiceFile
+    public class MobileServiceFileSystemFile : MobileServiceExpressFile
     {
         public MobileServiceFileSystemFile(MobileServiceFile file, string physicalPath)
         {

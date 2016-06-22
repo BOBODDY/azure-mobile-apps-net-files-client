@@ -2,10 +2,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // ----------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Mobile.Files.Managed;
+using Microsoft.WindowsAzure.Mobile.Files.Express;
 using Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Infrastructure;
 using Microsoft.WindowsAzure.MobileServices;
-using Microsoft.WindowsAzure.MobileServices.Files.Managed;
+using Microsoft.WindowsAzure.MobileServices.Files.Express;
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 using System;
@@ -14,13 +14,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios.Managed
+namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios.Express
 {
-    [Trait("End to end: Managed offline", "")]
+    [Trait("End to end: Express offline", "")]
     public class OfflineScenario
     {
         private readonly DataEntity item = new DataEntity { Id = "1" };
-        private readonly Stream fileStream = new MemoryStream("Managed offline scenario".Select(x => (byte)x).ToArray());
+        private readonly Stream fileStream = new MemoryStream("Express offline scenario".Select(x => (byte)x).ToArray());
 
         [Fact(DisplayName = "Files can be added, retrieved and deleted")]
         public async Task BasicScenario()
@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios.Managed
                 await table.AddFileAsync(item, "test.txt", fileStream);
 
                 // test our local store before syncing
-                await TestFiles(table, "test.txt", "Managed offline scenario");
+                await TestFiles(table, "test.txt", "Express offline scenario");
 
                 // push our changes to the server
                 await table.PushFileChangesAsync();
@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios.Managed
                 await table.PullFilesAsync(item);
 
                 // test that the file we added before has been synced
-                await TestFiles(table, "test.txt", "Managed offline scenario");
+                await TestFiles(table, "test.txt", "Express offline scenario");
 
                 // delete the file and push
                 await table.DeleteFileAsync(item, "test.txt");
@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios.Managed
         {
             store.DefineTable<DataEntity>();
             var client = new MobileServiceClient("http://localhost:3000/");
-            client.InitializeManagedFileSyncContext(store);
+            client.InitializeExpressFileSyncContext(store);
             await client.SyncContext.InitializeAsync(store);
             return client.GetSyncTable<DataEntity>();
         }

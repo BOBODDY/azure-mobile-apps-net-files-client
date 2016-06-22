@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Microsoft.WindowsAzure.MobileServices.Files.Managed
+namespace Microsoft.WindowsAzure.MobileServices.Files.Express
 {
     public static class MobileServiceSyncTableExtensions
     {
@@ -21,11 +21,11 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed
         /// <param name="dataItem">The data item that the file is associated with</param>
         /// <param name="fileName">The name of the file</param>
         /// <param name="stream">A readable <see cref="Stream"/> for the file contents</param>
-        public async static Task AddFileAsync<T>(this IMobileServiceSyncTable<T> table, T dataItem, string fileName, Stream stream)
+        public async static Task<MobileServiceExpressFile> AddFileAsync<T>(this IMobileServiceSyncTable<T> table, T dataItem, string fileName, Stream stream)
         {
-            var context = GetManagedSyncContext(table);
+            var context = GetExpressSyncContext(table);
             var file = Files.MobileServiceSyncTableExtensions.CreateFile(table, dataItem, fileName);
-            await context.AddFileAsync(file, stream);
+            return await context.AddFileAsync(file, stream);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed
         /// <returns></returns>
         public async static Task<Stream> GetFileAsync<T>(this IMobileServiceSyncTable<T> table, T dataItem, string fileName)
         {
-            var context = GetManagedSyncContext(table);
+            var context = GetExpressSyncContext(table);
             var file = Files.MobileServiceSyncTableExtensions.CreateFile(table, dataItem, fileName);
             return await context.GetFileAsync(file);
         }
@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed
         /// <param name="fileName">The name of the file</param>
         public async static Task DeleteFileAsync<T>(this IMobileServiceSyncTable<T> table, T dataItem, string fileName)
         {
-            var context = GetManagedSyncContext(table);
+            var context = GetExpressSyncContext(table);
             var file = Files.MobileServiceSyncTableExtensions.CreateFile(table, dataItem, fileName);
             await context.DeleteFileAsync(file);
         }
@@ -65,9 +65,9 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed
         /// <param name="table">The <see cref="IMobileServiceSyncTable{T}"/> instance</param>
         /// <param name="dataItem">The data item to query</param>
         /// <returns>An enumeration of <see cref="MobileServiceFile"/></returns>
-        public async static Task<IEnumerable<MobileServiceFile>> GetFilesAsync<T>(this IMobileServiceSyncTable<T> table, T dataItem)
+        public async static Task<IEnumerable<MobileServiceExpressFile>> GetFilesAsync<T>(this IMobileServiceSyncTable<T> table, T dataItem)
         {
-            var localStorage = GetManagedSyncContext(table).LocalStorage;
+            var localStorage = GetExpressSyncContext(table).LocalStorage;
             return (await Files.MobileServiceSyncTableExtensions.GetFilesAsync(table, dataItem)).Select(localStorage.AttachMetadata);
         }
 
@@ -92,12 +92,12 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Managed
             return Files.MobileServiceSyncTableExtensions.PullFilesAsync(table, dataItem);
         }
 
-        private static MobileServiceManagedFileSyncContext GetManagedSyncContext<T>(IMobileServiceSyncTable<T> table)
+        private static MobileServiceExpressFileSyncContext GetExpressSyncContext<T>(IMobileServiceSyncTable<T> table)
         {
-            var syncContext = table.MobileServiceClient.GetFileSyncContext() as MobileServiceManagedFileSyncContext;
+            var syncContext = table.MobileServiceClient.GetFileSyncContext() as MobileServiceExpressFileSyncContext;
             if (syncContext == null)
             {
-                throw new InvalidOperationException("To use the Microsoft.WindowsAzure.MobileServices.Files.Managed namespace, you must initialize file management by calling InitializeManagedFileSyncContext");
+                throw new InvalidOperationException("To use the Microsoft.WindowsAzure.MobileServices.Files.Express namespace, you must initialize file management by calling InitializeExpressFileSyncContext");
             }
             return syncContext;
         }
