@@ -3,18 +3,11 @@
 // ----------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure.MobileServices.Files;
-using Microsoft.WindowsAzure.MobileServices.Files.Metadata;
-using Microsoft.WindowsAzure.MobileServices.Files.Sync;
-using Microsoft.WindowsAzure.MobileServices;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.MobileServices.Files.Identity;
+using Microsoft.WindowsAzure.MobileServices.Files.Metadata;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Microsoft.WindowsAzure.MobileServices.Files.StorageProviders
 {
@@ -29,35 +22,42 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.StorageProviders
 
         public async Task UploadFileAsync(MobileServiceFileMetadata metadata, IMobileServiceFileDataSource dataSource, StorageToken storageToken)
         {
-            CloudBlockBlob blob = GetBlobReference(storageToken, metadata.FileName);
-
             using (var stream = await dataSource.GetStream())
             {
+                CloudBlockBlob blob = await GetBlobReference(storageToken, metadata.FileName);
                 await blob.UploadFromStreamAsync(stream);
+                //await blob.FetchAttributesAsync();
 
                 metadata.LastModified = blob.Properties.LastModified;
                 metadata.FileStoreUri = blob.Uri.LocalPath;
+                
 
                 stream.Position = 0;
-                metadata.ContentMD5 = GetMD5Hash(stream);
             }
         }
 
         public async Task DownloadFileToStreamAsync(MobileServiceFile file, Stream stream, StorageToken storageToken)
         {
-            CloudBlockBlob blob = GetBlobReference(storageToken, file.Name);
+            CloudBlockBlob blob = await GetBlobReference(storageToken, file.Name);
 
             await blob.DownloadToStreamAsync(stream);
         }
 
-        public Task<Uri> GetFileUriAsync(StorageToken storageToken, string fileName)
+        public async Task<Stream> GetFileAsync(MobileServiceFile file, StorageToken token)
         {
-            CloudBlockBlob blob = GetBlobReference(storageToken, fileName);
+            CloudBlockBlob blob = await GetBlobReference(token, file.Name);
 
-            return Task.FromResult(new Uri(blob.Uri, storageToken.RawToken));
+            return await blob.OpenReadAsync();
         }
 
-        private CloudBlockBlob GetBlobReference(StorageToken token, string fileName)
+        public async Task<Uri> GetFileUriAsync(StorageToken storageToken, string fileName)
+        {
+            CloudBlockBlob blob = await GetBlobReference(storageToken, fileName);
+
+            return new Uri(blob.Uri, storageToken.RawToken);
+        }
+
+        private async Task<CloudBlockBlob> GetBlobReference(StorageToken token, string fileName)
         {
             CloudBlockBlob blob = null;
 
@@ -72,18 +72,8 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.StorageProviders
                 blob = container.GetBlockBlobReference(fileName);
             }
 
+
             return blob;
-        }
-
-        private string GetMD5Hash(Stream stream)
-        {
-            //using (MD5 md5 = MD5.Create())
-            //{
-            //    byte[] hash = md5.ComputeHash(stream);
-            //    return Convert.ToBase64String(hash);
-            //}
-
-            return string.Empty;
         }
     }
 }

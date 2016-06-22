@@ -1,4 +1,5 @@
-﻿using Microsoft.WindowsAzure.MobileServices;
+﻿using Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Infrastructure;
+using Microsoft.WindowsAzure.MobileServices;
 using Microsoft.WindowsAzure.MobileServices.Files;
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
@@ -9,19 +10,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd
+namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios
 {
-    [Trait("End to end: Basic scenarios", "")]
-    public class BasicScenario
+    [Trait("End to end: Basic offline scenarios", "")]
+    public class OfflineScenario
     {
         private readonly DataEntity item = new DataEntity { Id = "1" };
         private readonly MobileServiceFile file = new MobileServiceFile("test.txt", "DataEntity", "1");
         private readonly Dictionary<string, string> fileContent = new Dictionary<string, string>
         {
-            { "test.txt", "This is a test" }
+            { "test.txt", "Basic scenario" }
         };
 
-        [Fact]
+        [Fact(DisplayName = "Files can be added, retrieved and deleted")]
         public async Task BlobCanBeUploadedListedRetrievedDeleted()
         {
             await ExecuteAndClearStore(async table =>
@@ -80,7 +81,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd
         {
             store.DefineTable<DataEntity>();
             var client = new MobileServiceClient("http://localhost:3000/");
-            client.InitializeFileSyncContext(new FileSyncHandler(fileContent), store);
+            client.InitializeFileSyncContext(new StringFileSyncHandler(fileContent), store);
             await client.SyncContext.InitializeAsync(store);
             return client.GetSyncTable<DataEntity>();
         }

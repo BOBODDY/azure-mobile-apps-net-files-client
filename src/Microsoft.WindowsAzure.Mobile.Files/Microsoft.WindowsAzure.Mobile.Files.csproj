@@ -40,12 +40,19 @@
     <DefineConstants>TRACE;Sign</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Express\LocalStorage\FileSystem\FileSystemStorageProvider.cs" />
+    <Compile Include="Express\LocalStorage\FileSystem\IFileSystemAccess.cs" />
+    <Compile Include="Express\LocalStorage\FileSystem\MobileServiceFileSystemFile.cs" />
+    <Compile Include="Express\LocalStorage\ILocalStorageProvider.cs" />
+    <Compile Include="Express\LocalStorageSyncHandler.cs" />
+    <Compile Include="Express\MobileServiceManagedFile.cs" />
+    <Compile Include="Express\MobileServiceManagedFileSyncContext.cs" />
+    <Compile Include="Express\MobileServiceSyncTableExtensions.cs" />
     <Compile Include="StorageProviders\AzureBlobStorageProvider.cs" />
     <Compile Include="Eventing\FileOperationCompletedEvent.cs" />
     <Compile Include="Eventing\FileOperationSource.cs" />
     <Compile Include="IMobileServiceFilesClient.cs" />
     <Compile Include="StorageProviders\IStorageProvider.cs" />
-    <Compile Include="MD5.cs" />
     <Compile Include="FileLocation.cs" />
     <Compile Include="Sync\IFileSyncContext.cs" />
     <Compile Include="Metadata\FileMetadataStore.cs" />
@@ -118,6 +125,7 @@
       <HintPath>..\..\packages\System.Spatial.5.6.4\lib\portable-net45+wp8+win8+wpa\System.Spatial.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">

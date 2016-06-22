@@ -46,6 +46,8 @@
     <TargetPlatform Include="WindowsPhoneApp, Version=8.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Express\WinAppsMobileServiceClientExtensions.cs" />
+    <Compile Include="Express\WinAppsFileSystemAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)File.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Express\FileSystemAccess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Express\MobileServiceClientExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MobileServiceSyncTableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MobileServiceTableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PathMobileServiceFileDataSource.cs" />
