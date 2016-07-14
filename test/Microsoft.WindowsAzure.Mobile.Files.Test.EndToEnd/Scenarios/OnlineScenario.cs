@@ -5,6 +5,7 @@
 using Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Infrastructure;
 using Microsoft.WindowsAzure.MobileServices;
 using Microsoft.WindowsAzure.MobileServices.Files;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,7 +42,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios
 
         private IMobileServiceTable<DataEntity> GetTable()
         {
-            var client = new MobileServiceClient("http://localhost:3000/");
+            var client = new MobileServiceClient(ConfigurationManager.AppSettings["MobileAppUrl"]);
             return client.GetTable<DataEntity>();
         }
 

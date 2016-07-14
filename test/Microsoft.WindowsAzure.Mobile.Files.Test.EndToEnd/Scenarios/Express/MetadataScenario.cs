@@ -10,6 +10,7 @@ using Microsoft.WindowsAzure.MobileServices.Files.Express.LocalStorage.FileSyste
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 using System;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -57,7 +58,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios.Express
         private async Task<IMobileServiceSyncTable<DataEntity>> GetTableAsync(MobileServiceSQLiteStore store)
         {
             store.DefineTable<DataEntity>();
-            var client = new MobileServiceClient("http://localhost:3000/");
+            var client = new MobileServiceClient(ConfigurationManager.AppSettings["MobileAppUrl"]);
             client.InitializeExpressFileSyncContext(store);
             await client.SyncContext.InitializeAsync(store);
             return client.GetSyncTable<DataEntity>();
