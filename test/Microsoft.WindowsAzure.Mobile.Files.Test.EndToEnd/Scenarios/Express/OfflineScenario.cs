@@ -86,7 +86,12 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios.Express
         private async Task<IMobileServiceSyncTable<DataEntity>> GetTableAsync(MobileServiceSQLiteStore store)
         {
             store.DefineTable<DataEntity>();
-            var client = new MobileServiceClient(ConfigurationManager.AppSettings["MobileAppUrl"]);
+            MobileServiceClient client = null;
+#if WIN_APPS
+            client = new MobileServiceClient((string)ApplicationData.Current.LocalSettings.Values["MobileAppUrl"]);
+#else
+            client = new MobileServiceClient(ConfigurationManager.AppSettings["MobileAppUrl"]);
+#endif
             client.InitializeExpressFileSyncContext(store);
             await client.SyncContext.InitializeAsync(store);
             return client.GetSyncTable<DataEntity>();

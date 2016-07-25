@@ -184,3 +184,7 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+test/*/project.lock.json
+test/*/*.nuget.props
+test/*/*.nuget.targets
+test/*/project.lock.json
