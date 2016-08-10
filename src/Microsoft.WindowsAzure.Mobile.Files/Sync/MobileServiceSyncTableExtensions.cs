@@ -171,8 +171,8 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
         private static string GetDataItemId(object dataItem)
         {
             // TODO: This needs to use the same logic used by the client SDK
-            var objectType = dataItem.GetType().GetTypeInfo();
-            var idProperty = objectType.GetDeclaredProperty("Id");
+            var objectType = dataItem.GetType();
+            var idProperty = objectType.GetRuntimeProperty("Id");
 
             if (idProperty != null && idProperty.CanRead)
             {
