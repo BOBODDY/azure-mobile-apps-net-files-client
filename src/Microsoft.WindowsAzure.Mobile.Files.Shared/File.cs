@@ -3,10 +3,7 @@
 // ----------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 #if WIN_APPS
 using Windows.Storage;
@@ -29,15 +26,15 @@ namespace Microsoft.WindowsAzure.Mobile.Files.IO
 #elif WIN_APPS
         public async static Task<Stream> CreateAsync(string targetPath)
         {
-            StorageFile file = await StorageFile.GetFileFromPathAsync(targetPath);
-
-            return await file.OpenStreamForWriteAsync();
+            StorageFolder storageFolder = await StorageFolder.GetFolderFromPathAsync(Path.GetDirectoryName(targetPath));
+            StorageFile file = await storageFolder.CreateFileAsync(Path.GetFileName(targetPath), CreationCollisionOption.ReplaceExisting);
+            var fStream = await file.OpenAsync(FileAccessMode.ReadWrite);
+            return fStream.AsStreamForWrite();
         }
 
         public async static Task<Stream> OpenReadAsync(string targetPath)
         {
             StorageFile file = await StorageFile.GetFileFromPathAsync(targetPath);
-
             return await file.OpenStreamForReadAsync();
         }
 #endif

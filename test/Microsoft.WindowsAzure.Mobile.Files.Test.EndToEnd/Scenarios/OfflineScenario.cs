@@ -5,11 +5,15 @@ using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
+#if __IOS__ || __UNIFIED__ || __ANDROID__ || DOTNET
+using System.Configuration;
+#else
+using Windows.Storage;
+#endif
 
 namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios
 {
@@ -22,6 +26,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios
         {
             { "test.txt", "Basic scenario" }
         };
+        private static string fileName = "test.txt";
 
         [Fact(DisplayName = "Files can be added, retrieved and deleted")]
         public async Task BlobCanBeUploadedListedRetrievedDeleted()
@@ -47,12 +52,14 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios
                 var files = await table.GetFilesAsync(item);
                 Assert.Equal(1, files.Count());
                 Assert.Equal("test.txt", files.ElementAt(0).Name);
-
+#if WIN_APPS
+                fileName = Path.Combine(ApplicationData.Current.LocalFolder.Path, fileName);
+#endif
                 // download the file and test content
-                await table.DownloadFileAsync(file, "test.txt");
-                var content = File.ReadAllText("test.txt");
+                await table.DownloadFileAsync(file, fileName);
+                var content = File.ReadAllText(fileName);
                 Assert.Equal(fileContent["test.txt"], content);
-                File.Delete("test.txt");
+                File.Delete(fileName);
 
                 // delete the file
                 await table.DeleteFileAsync(file);
@@ -81,7 +88,13 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios
         private async Task<IMobileServiceSyncTable<DataEntity>> GetTableAsync(MobileServiceSQLiteStore store)
         {
             store.DefineTable<DataEntity>();
-            var client = new MobileServiceClient(ConfigurationManager.AppSettings["MobileAppUrl"]);
+            MobileServiceClient client = null;
+#if WIN_APPS
+            client = new MobileServiceClient((string)ApplicationData.Current.LocalSettings.Values["MobileAppUrl"]);
+#else
+             client = new MobileServiceClient(ConfigurationManager.AppSettings["MobileAppUrl"]);
+#endif
+
             client.InitializeFileSyncContext(new StringFileSyncHandler(fileContent), store);
             await client.SyncContext.InitializeAsync(store);
             return client.GetSyncTable<DataEntity>();

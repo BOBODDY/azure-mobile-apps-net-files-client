@@ -5,11 +5,15 @@
 using Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Infrastructure;
 using Microsoft.WindowsAzure.MobileServices;
 using Microsoft.WindowsAzure.MobileServices.Files;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
+#if __IOS__ || __UNIFIED__ || __ANDROID__ || DOTNET
+using System.Configuration;
+#else
+using Windows.Storage;
+#endif
 
 namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios
 {
@@ -42,7 +46,12 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios
 
         private IMobileServiceTable<DataEntity> GetTable()
         {
-            var client = new MobileServiceClient(ConfigurationManager.AppSettings["MobileAppUrl"]);
+            MobileServiceClient client = null;
+#if WIN_APPS
+            client = new MobileServiceClient((string)ApplicationData.Current.LocalSettings.Values["MobileAppUrl"]);
+#else
+             client = new MobileServiceClient(ConfigurationManager.AppSettings["MobileAppUrl"]);
+#endif
             return client.GetTable<DataEntity>();
         }
 
