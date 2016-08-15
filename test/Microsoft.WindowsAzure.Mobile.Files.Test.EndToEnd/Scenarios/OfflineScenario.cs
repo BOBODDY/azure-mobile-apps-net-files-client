@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
+using System.Globalization;
 #if __IOS__ || __UNIFIED__ || __ANDROID__ || DOTNET
 using System.Configuration;
 #else
@@ -73,6 +74,21 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios
                 var files = await table.GetFilesAsync(item);
                 Assert.Equal(0, files.Count());
             });
+        }
+
+        [Fact(DisplayName = "Files can be added, retrieved and deleted in French TimeZone")]
+        public async Task BlobCanBeUploadedListedRetrievedDeletedFrenchTimeZone()
+        {
+            var currentCulture = CultureInfo.CurrentCulture;
+            try
+            {
+                CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("co-Fr");
+                await BlobCanBeUploadedListedRetrievedDeleted();
+            }
+            finally
+            {
+                CultureInfo.DefaultThreadCurrentCulture = currentCulture;
+            }
         }
 
         private async Task ExecuteAndClearStore(Func<IMobileServiceSyncTable<DataEntity>, Task> test)
