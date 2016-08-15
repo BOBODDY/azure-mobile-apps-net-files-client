@@ -42,19 +42,5 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
                 await table.DownloadFileToStreamAsync(file, stream);
             }
         }
-
-        internal static string GetDataItemId(object dataItem)
-        {
-            // TODO: This needs to use the same logic used by the client SDK
-            var objectType = dataItem.GetType().GetTypeInfo();
-            var idProperty = objectType.GetDeclaredProperty("Id");
-
-            if (idProperty != null && idProperty.CanRead)
-            {
-                return idProperty.GetValue(dataItem) as string;
-            }
-
-            return null;
-        }
     }
 }
