@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
         {
             IMobileServiceFilesClient filesClient = GetFilesClient(table.MobileServiceClient);
 
-            return await filesClient.GetFilesAsync(table.TableName, GetDataItemId(dataItem));
+            return await filesClient.GetFilesAsync(table.TableName, Utilities.GetDataItemId(dataItem));
         }
 
         /// <summary>
@@ -213,21 +213,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
         /// <returns>An instance of <see cref="MobileServiceFile"/> representing the file</returns>
         public static MobileServiceFile CreateFile<T>(this IMobileServiceTable<T> table, T dataItem, string fileName)
         {
-            return new MobileServiceFile(fileName, table.TableName, GetDataItemId(dataItem));
-        }
-
-        private static string GetDataItemId(object dataItem)
-        {
-            // TODO: This needs to use the same logic used by the client SDK
-            var objectType = dataItem.GetType().GetTypeInfo();
-            var idProperty = objectType.GetDeclaredProperty("Id");
-
-            if (idProperty != null && idProperty.CanRead)
-            {
-                return idProperty.GetValue(dataItem) as string;
-            }
-
-            return null;
+            return new MobileServiceFile(fileName, table.TableName, Utilities.GetDataItemId(dataItem));
         }
     }
 }

@@ -87,6 +87,7 @@
     <Compile Include="Sync\Triggers\IFileSyncTriggerFactory.cs" />
     <Compile Include="IMobileServiceFileDataSource.cs" />
     <Compile Include="Sync\Triggers\IFileSyncTrigger.cs" />
+    <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

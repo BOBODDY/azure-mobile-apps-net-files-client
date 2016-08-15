@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios.Express
     [Trait("End to end: Express metadata", "")]
     public class MetadataScenario
     {
-        private readonly DataEntity item = new DataEntity { Id = "1" };
+        private readonly DerivedDataEntity item = new DerivedDataEntity { Id = "1" };
         private readonly Stream fileStream = new MemoryStream("Express metadata scenario".Select(x => (byte)x).ToArray());
 
         [Fact(DisplayName = "Metadata is attached to files returned from GetFiles")]
@@ -35,7 +35,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios.Express
                 var files = await table.GetFilesAsync(item);
                 Assert.Equal(1, files.Count());
                 var file = (MobileServiceFileSystemFile) files.ElementAt(0);
-                Assert.Equal(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "DataEntity-1-test.txt"), file.PhysicalPath);
+                Assert.Equal(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "DerivedDataEntity-1-test.txt"), file.PhysicalPath);
                 Assert.Equal("test.txt", file.Name);
 
                 // make sure PhysicalPath is correct!
@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios.Express
             });
         }
 
-        private async Task ExecuteAndClearStore(Func<IMobileServiceSyncTable<DataEntity>, Task> test)
+        private async Task ExecuteAndClearStore(Func<IMobileServiceSyncTable<DerivedDataEntity>, Task> test)
         {
             using (var store = new MobileServiceSQLiteStore("test.sqlite"))
             {
@@ -55,9 +55,9 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios.Express
             File.Delete("test.sqlite");
         }
 
-        private async Task<IMobileServiceSyncTable<DataEntity>> GetTableAsync(MobileServiceSQLiteStore store)
+        private async Task<IMobileServiceSyncTable<DerivedDataEntity>> GetTableAsync(MobileServiceSQLiteStore store)
         {
-            store.DefineTable<DataEntity>();
+            store.DefineTable<DerivedDataEntity>();
             MobileServiceClient client = null;
 #if WIN_APPS
             client = new MobileServiceClient((string)ApplicationData.Current.LocalSettings.Values["MobileAppUrl"]);
@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Mobile.Files.Test.EndToEnd.Scenarios.Express
 #endif
             client.InitializeExpressFileSyncContext(store);
             await client.SyncContext.InitializeAsync(store);
-            return client.GetSyncTable<DataEntity>();
+            return client.GetSyncTable<DerivedDataEntity>();
         }
     }
 }
