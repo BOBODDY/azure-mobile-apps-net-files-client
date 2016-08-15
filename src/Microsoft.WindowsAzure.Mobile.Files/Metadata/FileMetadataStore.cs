@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files.Metadata
                 { "contentMD5", string.Empty },
                 { "localPath", string.Empty },
                 { "location", FileLocation.Local.ToString() },
-                { "lastModified", string.Empty },
+                { "lastModified", DateTimeOffset.UtcNow },
                 { "parentDataItemType", string.Empty },
                 { "parentDataItemId", string.Empty },
                 { "pendingDeletion", false },

@@ -86,7 +86,8 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
                 Location = FileLocation.Local,
                 ContentMD5 = file.ContentMD5,
                 ParentDataItemType = file.TableName,
-                ParentDataItemId = file.ParentId
+                ParentDataItemId = file.ParentId,
+                LastModified = DateTimeOffset.Now
             };
 
             await metadataStore.CreateOrUpdateAsync(metadata);
