@@ -149,6 +149,7 @@
     <Compile Include="Scenarios\MobileServiceFileSyncContext\PullFilesScenario.cs" />
     <Compile Include="Scenarios\MobileServiceFileSyncContext\PushChangesScenario.cs" />
     <Compile Include="UnitTests\MobileServiceFileSyncContextTests.cs" />
+    <Compile Include="UnitTests\UtilitiesTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Microsoft.WindowsAzure.Mobile.Files.Net\Microsoft.WindowsAzure.Mobile.Files.Net.csproj">

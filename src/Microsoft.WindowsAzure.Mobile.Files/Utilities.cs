@@ -13,7 +13,8 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
         {
             // TODO: This needs to use the same logic used by the client SDK
             var objectType = dataItem.GetType();
-            var idProperty = objectType.GetRuntimeProperty("Id");
+            var propertyInfoList = objectType.GetRuntimeProperties();
+            var idProperty = propertyInfoList.Where(x => x.Name.ToLower() == "id").FirstOrDefault();
 
             if (idProperty != null && idProperty.CanRead)
             {
