@@ -131,6 +131,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Infrastructure\DerivedDataEntity.cs" />
     <Compile Include="Infrastructure\PerUserDataEntity.cs" />
     <Compile Include="Scenarios\Express\MetadataScenario.cs" />
     <Compile Include="Scenarios\OfflineScenario.cs" />

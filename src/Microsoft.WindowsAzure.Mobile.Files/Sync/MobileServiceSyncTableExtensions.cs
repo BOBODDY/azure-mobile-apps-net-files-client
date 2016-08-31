@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
         {
             IFileSyncContext context = table.MobileServiceClient.GetFileSyncContext();
 
-            await context.PullFilesAsync(table.TableName, GetDataItemId(dataItem));
+            await context.PullFilesAsync(table.TableName, Utilities.GetDataItemId(dataItem));
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
         {
             IFileSyncContext context = table.MobileServiceClient.GetFileSyncContext();
 
-            var fileMetadata = await context.MetadataStore.GetMetadataAsync(table.TableName, GetDataItemId(dataItem));
+            var fileMetadata = await context.MetadataStore.GetMetadataAsync(table.TableName, Utilities.GetDataItemId(dataItem));
 
             return fileMetadata.Where(m => !m.PendingDeletion).Select(m => MobileServiceFile.FromMetadata(m));
         }
@@ -152,7 +152,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
         {
             IFileSyncContext context = table.MobileServiceClient.GetFileSyncContext();
 
-            await context.MetadataStore.PurgeAsync(table.TableName, GetDataItemId(dataItem));
+            await context.MetadataStore.PurgeAsync(table.TableName, Utilities.GetDataItemId(dataItem));
         }
 
         /// <summary>
@@ -165,21 +165,7 @@ namespace Microsoft.WindowsAzure.MobileServices.Files
         /// <returns>An instance of <see cref="MobileServiceFile"/> representing the file</returns>
         public static MobileServiceFile CreateFile<T>(this IMobileServiceSyncTable<T> table, T dataItem, string fileName)
         {
-            return new MobileServiceFile(fileName, table.TableName, GetDataItemId(dataItem));
-        }
-
-        private static string GetDataItemId(object dataItem)
-        {
-            // TODO: This needs to use the same logic used by the client SDK
-            var objectType = dataItem.GetType().GetTypeInfo();
-            var idProperty = objectType.GetDeclaredProperty("Id");
-
-            if (idProperty != null && idProperty.CanRead)
-            {
-                return idProperty.GetValue(dataItem) as string;
-            }
-
-            return null;
+            return new MobileServiceFile(fileName, table.TableName, Utilities.GetDataItemId(dataItem));
         }
     }
 }
